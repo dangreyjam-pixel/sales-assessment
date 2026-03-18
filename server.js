@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // 🔗 Replace with your MongoDB URL
-mongoose.connect("mongodb+srv://dangreyjam_db_user:<db_password>@cluster0.71qefac.mongodb.net/?appName=Cluster0")
+mongoose.connect("mongodb+srv://dangreyjam_db_user:dangrey@1@cluster0.71qefac.mongodb.net/?appName=Cluster0")
 .then(() => console.log("DB Connected"));
 
 const Response = mongoose.model("Response", {

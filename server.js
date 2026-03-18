@@ -1,29 +1,34 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const app = express();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to the database you made in Phase 1
-mongoose.connect(process.env.MONGO_URL);
+// 🔗 Replace with your MongoDB URL
+mongoose.connect("mongodb+srv://dangreyjam_db_user:<db_password>@cluster0.71qefac.mongodb.net/?appName=Cluster0")
+.then(() => console.log("DB Connected"));
 
-// Create a structure for the data
-const Response = mongoose.model('Response', {
-    name: String, email: String, persona: String, role: String, date: { type: Date, default: Date.now }
+const Response = mongoose.model("Response", {
+  name: String,
+  email: String,
+  persona: String,
+  role: String,
+  createdAt: { type: Date, default: Date.now }
 });
 
-// Route to SAVE data
-app.post('/save', async (req, res) => {
-    await new Response(req.body).save();
-    res.send({ status: "Saved!" });
+// Save data
+app.post("/submit", async (req, res) => {
+  const data = new Response(req.body);
+  await data.save();
+  res.send("Saved");
 });
 
-// Route for YOU (the Admin) to see data
-app.get('/results', async (req, res) => {
-    const data = await Response.find().sort({ date: -1 });
-    res.json(data);
+// Admin data
+app.get("/admin", async (req, res) => {
+  const data = await Response.find();
+  res.json(data);
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(5000, () => console.log("Server running"));
